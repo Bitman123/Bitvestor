@@ -1,0 +1,98 @@
+import numpy as np
+coinList = {50, 100, 1000, 10000, 50000000, 85000000, 99999999}  #list of MCs from database
+priceper12 = [1.25, 2.01, 0.75, 0.55, 1.33, 0.83, 0.97, 0.69, 0.25, 1.57, 1.66, 2.25]
+priceper24 = [1.25, 2.01, 0.75, 0.55, 1.33, 0.83, 0.97, 0.69, 0.25, 1.57, 1.66, 2.25, 3.20, 1.65, 0.78, 0.43,
+                0.27, 0.15, 0.37, .049, .786, .305, .954, .407]    #closing price for last 24 hours
+
+sorted(coinList, key = int)                                        #sorts the MCs in ascending order
+
+coinName = 'coin'                                                  #whatever coin that is chosen
+minimum = 1000000                                                  #MC lower bound
+maximum = 100000000                                                #MC upper bound
+
+def simplemovingaverage(values, window):
+    weights = np.repeat(1.0, window)/window
+    smas = np.convolve(values, weights, 'valid')
+    return smas
+
+def exponentialmovingaverage(values,window):
+    weights = np.exp(np.linspace(-1., 0., window))
+    weights /= weights.sum()
+
+    emas = np.convolve(values, window)
+    emas[:window] = emas[window]
+    return emas
+
+#def standdevcalculation(dataset):
+    x = np.array(dataset)
+    standardDev = x.std()
+    return standardDev
+
+#def marketvslongterm():                                         #compares market SMA and longterm SMA
+   # if np.greater(m[23],lt[21]):                                #if last point on m is greater than last point on lt
+        #shorttermvslongterm()                                   #check short term vs longterm
+    #else:
+        #checkmc(coinList)                                       #if not check the list of market caps
+
+#def shorttermvslongterm():                                      #compares
+    #if np.greater(st[22],lt[21]):
+        #marketvsshortterm()
+    #else:
+       # checkmc(coinList)
+
+#def marketvsshortterm():
+    #dm = np.diff(m)
+   # dst = np.diff(st)
+
+   # if np.greater(dm,dst):
+        #compareexchanges()
+   # else:
+        #checkmc(coinList)
+
+#def compareexchanges():
+
+    #checkBinance()
+
+
+
+
+
+
+
+
+
+
+
+
+
+m = simplemovingaverage(priceper24, 1)
+
+st = simplemovingaverage(priceper24, 2)
+
+lt = simplemovingaverage(priceper24, 3)
+
+
+print(m)
+
+print(st)
+
+print(lt)
+
+expm = exponentialmovingaverage(priceper24, 1)
+expst = exponentialmovingaverage(priceper24, 2)
+explt = exponentialmovingaverage(priceper24, 3)
+
+
+
+#def checkmc(cList):
+#for MC in range(0, len(coinList)):                                #checks value stored in each key from 0 to length of coinList
+
+    #if minimum <= coinList[MC] <= maximum:                        # if 1,000,000(min) <= MC <= 100,000,000 (max)
+      #  m
+      #  st
+      #  lt
+      #  marketvslongterm()
+
+
+
+
